@@ -83,7 +83,6 @@ def take_madden_stats(start ,end ,file_path):
             response = requests.get(url, stream=True)
             response.raise_for_status()  # Raise an error for failed requests
 
-            # name = i.split('/')[-1].rsplit('.xlsx', 1)[0]
             name = i.split('/')[-1].rsplit('_.xlsx', 1)[0].replace("__madden_nfl", "")
             # Path to save the file (you can specify your desired file name here)
             file_name = file_path + "\\madden\\" + str(1999 + y) + "\\" + name + ".xlsx"
@@ -101,7 +100,7 @@ def take_madden_stats(start ,end ,file_path):
                 player_team_stats_madden = pd.read_excel(file_path_load, engine='xlrd')
                 file_path_load = file_path_load.replace('.xls.xlsx', ".xlsx")
 
-            # Orgenize column names
+            # Organize column names
             player_team_stats_madden.rename(columns=lambda x: 'Last' if 'LAST' in x.upper() else x, inplace=True)
             player_team_stats_madden.rename(columns=lambda x: 'First' if 'FIRST' in x.upper() else x, inplace=True)
             player_team_stats_madden.rename(columns=lambda x: 'Overall' if 'OVERALL' in x.upper() else x, inplace=True)
@@ -136,25 +135,24 @@ def take_madden_stats(start ,end ,file_path):
             if y > start_y or count > 1:
                 player_team_stats_madden_years = player_team_stats_madden_years.append(player_team_stats_madden)
 
-    player_team_stats_madden_years_1 = player_team_stats_madden_years
-
-    player_team_stats_madden_years_1['Name'] = player_team_stats_madden_years_1.apply(
+    player_team_stats_madden_years['Name'] = player_team_stats_madden_years.apply(
         lambda row: (row['First'] + ' ' + row['Last']).strip() if pd.isna(row['Name']) or row['Name'] == '' else row[
             'Name'],
         axis=1)
-    player_team_stats_madden_years_1['Years Pro'] = player_team_stats_madden_years_1.apply(
-        lambda row: update_years_pro(row, player_team_stats_madden_years_1), axis=1)
+    #Fixing the data
+    player_team_stats_madden_years['Years Pro'] = player_team_stats_madden_years.apply(
+        lambda row: update_years_pro(row, player_team_stats_madden_years), axis=1)
 
     columns_to_keep = ['Years Pro', 'Age', 'year', 'Position', 'Overall', 'Name']
 
-    player_team_stats_madden_years_1 = player_team_stats_madden_years_1[columns_to_keep]
+    player_team_stats_madden_years = player_team_stats_madden_years[columns_to_keep]
     file_name = file_path + "\\madden\\player Rating.xlsx"
 
     # Write the content of the request to a file
     writer = pd.ExcelWriter(file_name, engine='xlsxwriter')
 
     # Write the DataFrame to the Excel file
-    player_team_stats_madden_years_1.to_excel(writer, sheet_name='Sheet1', index=False)
+    player_team_stats_madden_years.to_excel(writer, sheet_name='Sheet1', index=False)
 
     # Save the Excel file
     writer.save()
@@ -173,4 +171,5 @@ def take_madden_stats(start ,end ,file_path):
         team_ovr_df_years['Team Name'] == 'Washington Football', 'Team Name'] = 'Washington Football Team'
 
     team_ovr_df_years["Team Name"].unique()
-    return team_ovr_df_years, player_team_stats_madden_years_1
+
+    return team_ovr_df_years, player_team_stats_madden_years
