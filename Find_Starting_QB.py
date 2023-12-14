@@ -38,8 +38,7 @@ def find_starting_qb(full_teams_roster_df,player_team_stats_madden_years):
     # Merge with the original DataFrame
     qb_in_rosters = qb_in_rosters.merge(starting_df, on=['year', 'week', 'full_team_name'], how='left')
 
-
-    starting_qb = qb_in_rosters[['year', 'week','full_team_name','starting','starting_overall']]
+    starting_qb = qb_in_rosters[['year', 'week', 'full_team_name', 'starting', 'starting_overall']]
     starting_qb = starting_qb.drop_duplicates()
 
     return starting_qb

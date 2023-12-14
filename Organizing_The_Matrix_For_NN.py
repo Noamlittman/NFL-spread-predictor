@@ -1,4 +1,6 @@
-def Organize_all_the_data():
+def Organize_all_the_data(coaches_df, team_names_table, team_ovr_df_years, teams_standing_df, starting_qb,
+                          superstar_player_df, star_player_df, betting_odds_df, city_teams_stats, file_path):
+
     coaches_df = pd.merge(coaches_df, team_names_table,
                           left_on='team', right_on='full_names', how='inner')
     team_ovr_df_years_df = pd.merge(
@@ -195,17 +197,23 @@ def Organize_all_the_data():
     betting_odds_df_merge.rename(columns={
                                  'count_superstars': 'count_superstars_Favorite', 'superstars ""': 'superstars_""_Favorite'
                                  ,'superstars "Q"': 'superstars_"Q"_Favorite', 'superstars "O"': 'superstars_"O"_Favorite'}, inplace=True)
-    betting_odds_df_merge = betting_odds_df_merge[['Day', 'Date', 'Time (ET)', 'home_1', 'conference_Favorite', 'division_Favorite', 'conference_Underdog', 'division_Underdog', 'Favorite', 'Spread', 'home_2',
+    betting_odds_df_merge = betting_odds_df_merge[['Day', 'Date', 'Time (ET)', 'home_1', 'conference_Favorite',
+                                                   'division_Favorite', 'conference_Underdog', 'division_Underdog',
+                                                   'Favorite', 'Spread', 'home_2',
                                                    'Underdog', 'Over/Under', 'week_number', 'Year', 'Team 1 Score',
                                                    'Team 2 Score', 'Score Difference', 'OT', 'European game',
-                                                   'Favorite_city', 'Favorite_team', 'Underdog_city', 'Underdog_team', 'win_Favorite', 'loss_Favorite', 'win_Underdog', 'loss_Underdog',
-                                                   'worth_Favorite', 'size_Favorite', 'cold_Favorite', 'worth_Underdog', 'size_Underdog', 'cold_Underdog', 'new_coach_Favorite', 'new_year_coach_Favorite',
-                                                   'new_coach_Underdog', 'new_year_coach_Underdog', 'Rating_Favorite', 'Rating_Underdog', 'starting_qb_Favorite', 'Overall_qb_Favorite',
+                                                   'Favorite_city', 'Favorite_team', 'Underdog_city', 'Underdog_team',
+                                                   'win_Favorite', 'loss_Favorite', 'win_Underdog', 'loss_Underdog',
+                                                   'worth_Favorite', 'size_Favorite', 'cold_Favorite', 'worth_Underdog',
+                                                   'size_Underdog', 'cold_Underdog', 'new_coach_Favorite',
+                                                   'new_year_coach_Favorite', 'new_coach_Underdog', 'new_year_coach_Underdog',
+                                                   'Rating_Favorite', 'Rating_Underdog', 'starting_qb_Favorite', 'Overall_qb_Favorite',
                                                    'starting_qb_Underdog', 'Overall_qb_Underdog', 'count_stars_Underdog',
-                                                   'stars_""_Underdog', 'stars_"Q"_Underdog','stars_"O"_Underdog', 'count_stars_Favorite',
+                                                   'stars_""_Underdog', 'stars_"Q"_Underdog','stars_"O"_Underdog',
+                                                   'count_stars_Favorite',
                                                    'stars_""_Favorite', 'stars_"Q"_Favorite','stars_"O"_Favorite', 'count_superstars_Underdog',
-                                                   'superstars_""_Underdog', 'superstars_"Q"_Underdog','superstars_"O"_Underdog', 'count_superstars_Favorite',
-                                                   'superstars_""_Favorite', 'superstars_"Q"_Favorite','superstars_"O"_Favorite'
+                                                   'superstars_""_Underdog', 'superstars_"Q"_Underdog', 'superstars_"O"_Underdog', 'count_superstars_Favorite',
+                                                   'superstars_""_Favorite', 'superstars_"Q"_Favorite', 'superstars_"O"_Favorite'
                                                    ]]
     #Fill in the missing Data
 
@@ -236,7 +244,7 @@ def Organize_all_the_data():
     # Drop all rows with NA
     betting_odds_df_merge = betting_odds_df_merge.dropna()
 
-    data_for_NN = betting_odds_df_merge[['Day',  'Time (ET)', 'home_1', 'conference_Favorite', 'division_Favorite', 'conference_Underdog', 'division_Underdog', 'Favorite', 'Spread', 'home_2',
+    data_for_nn = betting_odds_df_merge[['Day',  'Time (ET)', 'home_1', 'conference_Favorite', 'division_Favorite', 'conference_Underdog', 'division_Underdog', 'Favorite', 'Spread', 'home_2',
                                          'Underdog', 'Over/Under', 'week_number', 'Year', 'OT', 'European game',
                                          'Favorite_city', 'Favorite_team', 'Underdog_city', 'Underdog_team', 'win_Favorite', 'loss_Favorite', 'win_Underdog', 'loss_Underdog',
                                          'worth_Favorite', 'size_Favorite', 'cold_Favorite', 'worth_Underdog', 'size_Underdog', 'cold_Underdog', 'new_coach_Favorite', 'new_year_coach_Favorite',
@@ -247,13 +255,13 @@ def Organize_all_the_data():
                                          'superstars_""_Underdog', 'superstars_"Q"_Underdog','superstars_"O"_Underdog', 'count_superstars_Favorite',
                                          'superstars_""_Favorite', 'superstars_"Q"_Favorite','superstars_"O"_Favorite']]
 
-    data_for_NN['Score Difference binary'] = np.where(
-        data_for_NN['Score Difference'] - data_for_NN['Spread'] < 0, 1, 0)
+    data_for_nn['Score Difference binary'] = np.where(
+        data_for_nn['Score Difference'] - data_for_nn['Spread'] < 0, 1, 0)
     filter_results_for_NN = data_for_NN['Score Difference'] - \
-        data_for_NN['Spread'] != 0
+        data_for_nn['Spread'] != 0
 
-    data_for_NN = data_for_NN[filter_results_for_NN]
-    data_for_NN = data_for_NN[['Day', 'Time (ET)', 'home_1', 'conference_Favorite', 'division_Favorite', 'conference_Underdog', 'division_Underdog', 'Favorite', 'Spread', 'home_2',
+    data_for_nn = data_for_nn[filter_results_for_NN]
+    data_for_nn = data_for_nn[['Day', 'Time (ET)', 'home_1', 'conference_Favorite', 'division_Favorite', 'conference_Underdog', 'division_Underdog', 'Favorite', 'Spread', 'home_2',
                                'Underdog', 'Over/Under', 'week_number', 'Year', 'OT', 'European game',
                                'Favorite_city', 'Favorite_team', 'Underdog_city', 'Underdog_team', 'win_Favorite', 'loss_Favorite', 'win_Underdog', 'loss_Underdog',
                                'worth_Favorite', 'size_Favorite', 'cold_Favorite', 'worth_Underdog', 'size_Underdog', 'cold_Underdog', 'new_coach_Favorite', 'new_year_coach_Favorite',
@@ -267,23 +275,9 @@ def Organize_all_the_data():
     writer = pd.ExcelWriter(file_tests_name, engine='xlsxwriter')
 
     # Write the DataFrame to the Excel file
-    data_for_NN.to_excel(writer, sheet_name='Sheet1', index=False)
+    data_for_nn.to_excel(writer, sheet_name='Sheet1', index=False)
     # Save the Excel file
     writer.save()
     writer.close()
-    data_for_NN = pd.read_excel(file_tests_name, engine='openpyxl')
-    df = data_for_NN
-    feature_columns_A = ['Day', 'Time (ET)', 'home_1', 'European game', 'home_2',
-                         'cold_Underdog', 'cold_Favorite', 'Favorite_team', 'Underdog_team']
 
-    feature_columns_B = ['Favorite_team', 'Underdog_team', 'worth_Favorite', 'size_Favorite', 'worth_Underdog',
-                         'size_Underdog', 'Rating_Underdog', 'Rating_Favorite', 'conference_Favorite', 'division_Favorite', 'conference_Underdog', 'division_Underdog']
-    feature_columns_C = ['Favorite', 'Spread',
-                         'Underdog', 'Over/Under', 'win_Favorite', 'loss_Favorite', 'win_Underdog', 'loss_Underdog',
-                         'new_coach_Favorite', 'new_year_coach_Favorite', 'Rating_Favorite', 'Rating_Underdog',
-                         'new_coach_Underdog', 'new_year_coach_Underdog', 'starting_qb_Favorite', 'starting_qb_Underdog', 'count_stars_Underdog',
-                         'stars_""_Underdog', 'stars_"Q"_Underdog','stars_"O"_Underdog', 'count_stars_Favorite',
-                         'stars_""_Favorite', 'stars_"Q"_Favorite','stars_"O"_Favorite', 'count_superstars_Underdog',
-                         'superstars_""_Underdog', 'superstars_"Q"_Underdog','superstars_"O"_Underdog', 'count_superstars_Favorite',
-                         'superstars_""_Favorite', 'superstars_"Q"_Favorite','superstars_"O"_Favorite'
-                         ]
+    return data_for_nn
