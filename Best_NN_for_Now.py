@@ -26,7 +26,7 @@ def time_decay_weight(row, current_year, current_week, max_weight=10):
 
 
 # data = pd.read_csv('historical_games.csv')
-for v in range(0, 100, 5):
+for v in range(0, 100, 1):
     X_train = pd.DataFrame()
     y_train = pd.Series()
     current_week_games = df[df['Year'] < 2022]

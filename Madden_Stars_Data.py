@@ -1,7 +1,7 @@
 def madden_stars_data(full_teams_roster_df,player_team_stats_madden_years):
     superstar_player_roster = full_teams_roster_df[['Player', 'week', 'Age', 'Pos', 'Wt', 'Ht',
                                                     'Yrs', 'Drafted (tm/rnd/yr)', 'full_team_name',
-                                                    'year', 'status',  'active']]
+                                                    'year', 'status']]
     superstar_player_team_madden_years = player_team_stats_madden_years[player_team_stats_madden_years['Overall'] > 93]
     superstar_player_team_madden_years = superstar_player_team_madden_years[['Name', 'Overall', 'year', 'Position']]
     superstar_player_roster = (superstar_player_roster.merge
@@ -31,7 +31,7 @@ def madden_stars_data(full_teams_roster_df,player_team_stats_madden_years):
     superstar_player_df = superstar_player_df.drop_duplicates()
 
     star_player_roster = full_teams_roster_df[['Player', 'week', 'Age', 'Pos', 'Wt', 'Ht',
-           'Yrs', 'Drafted (tm/rnd/yr)', 'full_team_name', 'year', 'status',  'active']]
+                                               'Yrs', 'Drafted (tm/rnd/yr)', 'full_team_name', 'year', 'status']]
     star_player_team_madden_years = player_team_stats_madden_years[(player_team_stats_madden_years['Overall'] > 87) &
                                                                    (player_team_stats_madden_years['Overall'] < 94)]
     star_player_team_madden_years = star_player_team_madden_years[['Name', 'Overall', 'year', 'Position']]
