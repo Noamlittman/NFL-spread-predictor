@@ -1,16 +1,20 @@
-# This is a sample Python script.
-
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+from Collect_all_the_data import *
+from Organizing_The_Matrix_For_NN import *
+from Convert_Table_To_NN import *
+from Best_NN_for_Now import *
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+(team_ovr_df_years, player_team_stats_madden_years, teams_standing_df, coaches_df,
+ merged_df_all_games, full_teams_roster_df, betting_odds_df, starting_qb,
+ star_player_df, superstar_player_df) = collect_the_data()
+data_for_nn = Organize_all_the_data(team_ovr_df_years, player_team_stats_madden_years,
+                                    teams_standing_df, coaches_df,
+                                    merged_df_all_games, full_teams_roster_df,
+                                    betting_odds_df, starting_qb,
+                                    star_player_df, superstar_player_df)
+data_in_nn = convert_table_for_nn(data_for_nn)
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+
+
+
+
