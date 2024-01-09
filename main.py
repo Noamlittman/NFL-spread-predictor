@@ -2,7 +2,7 @@ from Collect_all_the_data import *
 from Organizing_The_Matrix_For_NN import *
 from Convert_Table_To_NN import *
 from Best_NN_for_Now import *
-from Constants import
+from Constants import *
 
 (team_ovr_df_years, player_team_stats_madden_years, teams_standing_df, coaches_df,
  merged_df_all_games, full_teams_roster_df, betting_odds_df, starting_qb,
