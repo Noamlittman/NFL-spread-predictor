@@ -1,12 +1,13 @@
 import pandas as pd
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from tensorflow.keras.callbacks import EarlyStopping, ReduceLROnPlateau
-
-
-def time_decay_weight(row, current_year, current_week, max_weight=10):
+from tensorflow.keras.layers import Dense, BatchNormalization
+from tensorflow.keras.regularizers import l2
+from tensorflow.keras.optimizers import Adam
+import matplotlib.pyplot as plt
+def time_decay_weight(row, current_year, current_week, df, max_weight=10):
     # Calculate the total number of weeks from the row year/week to the current year/week
     year_difference = current_year - row['Year']
     week_difference = current_week - row['week_number']
@@ -25,7 +26,7 @@ def time_decay_weight(row, current_year, current_week, max_weight=10):
     return weight
 
 
-def predictions_after_nn(desired_week, desired_year,df):
+def predictions_after_nn(desired_week, desired_year, df, file_path):
     # data = pd.read_csv('historical_games.csv')
     for v in range(0, 100, 1):
         X_train = pd.DataFrame()
@@ -51,7 +52,7 @@ def predictions_after_nn(desired_week, desired_year,df):
         current_week = X['week_number'].max()  # Assuming you have the current week information
 
         # Apply the time decay weight to each row in the DataFrame
-        weights = X.apply(lambda row: time_decay_weight(row, current_year, current_week), axis=1)
+        weights = X.apply(lambda row: time_decay_weight(row, current_year, current_week, df), axis=1)
         # Build the initial model
         model = Sequential([
             Dense(64, activation='relu', input_dim=X_train.shape[1], kernel_regularizer=l2(0.0002)),
@@ -117,12 +118,15 @@ def predictions_after_nn(desired_week, desired_year,df):
                 current_week = week  # Replace with the actual current week number
 
                 # Apply the time decay weight to each row in the DataFrame
-                weights = X_train.apply(lambda row: time_decay_weight(row, current_year, current_week), axis=1)
+                weights = X_train.apply(lambda row:
+                                        time_decay_weight(row, current_year,
+                                                          current_week, df), axis=1)
 
                 X_train = X_train.astype('float32')
                 y_train = y_train.astype('float32')
                 # Retrain or fine-tune the model with updated data
-                model.fit(X_train, y_train, sample_weight=weights.values, epochs=200, batch_size=16, validation_split=0.1,
+                model.fit(X_train, y_train, sample_weight=weights.values,
+                          epochs=200, batch_size=16, validation_split=0.1,
                           callbacks=[early_stopping])
 
         predictions_df = predictions_df[['Predictions', 'Score Difference binary']]
@@ -160,7 +164,7 @@ def predictions_after_nn(desired_week, desired_year,df):
         writer.save()
         writer.close()
 
-        import matplotlib.pyplot as plt
+
 
         # Calculate accuracy within each bin
         accuracy_per_bin = predictions_df.groupby('Confidence_Bin').apply(
