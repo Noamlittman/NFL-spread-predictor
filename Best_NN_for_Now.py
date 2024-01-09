@@ -7,6 +7,8 @@ from tensorflow.keras.layers import Dense, BatchNormalization
 from tensorflow.keras.regularizers import l2
 from tensorflow.keras.optimizers import Adam
 import matplotlib.pyplot as plt
+
+
 def time_decay_weight(row, current_year, current_week, df, max_weight=10):
     # Calculate the total number of weeks from the row year/week to the current year/week
     year_difference = current_year - row['Year']
