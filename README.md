@@ -13,4 +13,4 @@ Key Features
 Data Extraction: Utilizes Python's web scraping tools to gather historical data from multiple sports-related websites.
 Data Processing: Employs Pandas and NumPy for efficient data organization, cleaning, and categorization.
 Predictive Modeling: Applies Neural Networks using TensorFlow and scikit-learn to analyze and predict game outcomes.
-Insightful Analysis: Aims to provide deeper insights than traditional methods, taking into account various factors overlooked by sportsbo
+Insightful Analysis: Aims to provide deeper insights than traditional methods, taking into account various factors overlooked by sportsbooks.
