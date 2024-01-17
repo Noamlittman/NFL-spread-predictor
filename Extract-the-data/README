@@ -1,0 +1,16 @@
+Overview
+In the realm of predictive sports analytics, the accuracy and depth of the data sourced are paramount. 
+This module is a meticulously crafted component of a larger predictive analytics project,
+designed to aggregate and refine data from multiple online sports sources. 
+It serves as the foundational step in developing a sophisticated model that aimsto forecast sports game
+outcomes with higher precision than traditional methods.
+
+Data Sources
+This module extracts data from the following sources, leveraging Python's requests and selenium libraries:
+
+Madden Ratings: Sourced from Madden Ratings, utilizing requests for efficient retrieval of player ratings,
+offering a unique perspective on player capabilities.
+Betting Stats: Collected from Sports Odds History, using requests to gather historical betting data,
+essential for understanding market trends and perceptions.
+Player and Team Stats: Extracted from Pro Football Reference via selenium,
+providing comprehensive statistics that are crucial for a nuanced analysis of player and team performances.
