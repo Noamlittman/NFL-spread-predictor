@@ -1,10 +1,3 @@
-import pandas as pd
-import requests
-from bs4 import BeautifulSoup, ResultSet
-import time
-import numpy as np
-
-
 
 def table_to_dataframe(table):
     rows = table.find_all('tr')

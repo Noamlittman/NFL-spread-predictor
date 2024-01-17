@@ -1,6 +1,4 @@
-from sklearn.ensemble import RandomForestClassifier  # or RandomForestRegressor for regression problems
-import numpy as np
-import matplotlib.pyplot as plt
+
 def feature_analysis_randomforest(data_for_nn):
     X = data_for_nn.drop('Score Difference binary',
                                  axis=1)  # Replace 'target' with the name of your outcome column

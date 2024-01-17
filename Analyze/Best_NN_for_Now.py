@@ -1,12 +1,4 @@
-import pandas as pd
-from tensorflow.keras.models import Sequential
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score
-from tensorflow.keras.callbacks import EarlyStopping, ReduceLROnPlateau
-from tensorflow.keras.layers import Dense, BatchNormalization
-from tensorflow.keras.regularizers import l2
-from tensorflow.keras.optimizers import Adam
-import matplotlib.pyplot as plt
+
 
 
 def time_decay_weight(row, current_year, current_week, df, max_weight=10):

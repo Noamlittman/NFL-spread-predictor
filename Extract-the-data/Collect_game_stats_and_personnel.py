@@ -1,9 +1,3 @@
-import pandas as pd
-from selenium import webdriver
-from bs4 import BeautifulSoup, ResultSet
-from selenium.common.exceptions import TimeoutException
-import time
-import numpy as np
 
 
 def extract_pick_number(s):
