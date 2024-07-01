@@ -1,0 +1,37 @@
+Even though we can assume that betting preferences and skewed outlooks can change over time for individuals we would like to first take a broad look at the data and see if we can find what variables can consistently be attributed to the outcome of the spread to actual score ratio. 
+Once we have the narrow the number of features we use the games prior to 2022 as trian and the games in 2022 and after as test and test the possibility of predicting game accuracy based on the data we collected with algorithms that do not take into account the stochastic dimension of betting preferences and skewed outlooks.
+We will use the following algorithms:
+Logistic Regression
+Random Forest
+BaggingClassifier
+AdaBoostClassifier
+XGBClassifier
+Baseline outcomes( Using all the variables):
+Bagging Classifier Accuracy: 0.517
+AdaBoost Classifier Accuracy: 0.523
+XGB Classifier Accuracy: 0.519
+Logistic Regression Accuracy: 0.524
+Random Forest Accuracy: 0.525
+BinomTestResult: k= 347, n = 662, alternative = greater, statistic = 0.524, pvalue = 0.114
+Algorithms we used to find the importance of variables:
+Correlation
+Top features:
+Variable	Description	Importance
+week_number		0.051
+European game	Is the game played in Europe	0.025
+size_Favorite	Size of the city of the team favored to win	0.025
+cold_Favorite	Does the favored team to win play in a cold city	0.033
+size_Underdog	Size of the city of the team not favored to win	0.027
+Rating_Favorite	Madden rating of the team favored to win	0.034
+starting_qb_Underdog	What is the playing status of the starting quarterback of the underdog team	0.026
+Overall_qb_Underdog	Madden rating of the quarterback that is most likely going to play for the underdog team	0.026
+
+Outcomes: 
+Bagging Classifier Accuracy: 0.521
+AdaBoost Classifier Accuracy: 0.528
+XGB Classifier Accuracy: 0.539
+Logistic Regression Accuracy: 0.55
+Random Forest Accuracy: 0.52
+BinomTestResult: k= 364, n = 662, alternative = greater, statistic = 0.55, pvalue = 0.006
+Now we can already see that there is high certainty that with the data collected and using feature selection and logistic regression we can beat the spread. Which means that with high certainty we can say that the betting odds are not calculated in a purely data based model and they can be tuned and more accurate.
+
